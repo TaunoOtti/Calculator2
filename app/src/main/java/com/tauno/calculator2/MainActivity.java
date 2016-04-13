@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.Serializable;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -105,16 +107,16 @@ public class MainActivity extends AppCompatActivity {
         textViewShow.setText(strDouble);
     }
 
-
     public void setOperator(Button button) {
         if(numbers[0] == ""){
             numbers[0] = strDouble;
+            setOperand(button.getText().toString());
         }
-        //strDouble = "";
         if (checkIfTwoNumbers()) {
             calculateAnswer();
+            setOperand(button.getText().toString());
         }
-        setOperator(button.getText().toString());
+        setOperand(button.getText().toString());
     }
 
 
@@ -142,16 +144,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void resetAnswer() {
-        strDouble = "0";
+        strDouble = "";
         reset();
         showContent();
     }
+
+
 
     public void saveNumber(Button btn) {
 
         String nr = btn.getText().toString();
         checkIfInfinity();
-        if(operatorSet()){
+        if(!operatorSet()){
             numbers[0] = strDouble;
         }
 
@@ -212,7 +216,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void setOperator(String op) {
+    public void resetOperand(){
+        operator = '\u0000';
+    }
+
+    public void setOperand(String op) {
         if (numbers[0] != "") {
             operator = op.charAt(0);
             flag = true;
